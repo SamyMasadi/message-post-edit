@@ -12,27 +12,60 @@
 <body>
 <script>
 
-	// Get 2D array ready for dynamic programming algorithm.
-	function initGraph(graph, len1, len2) {
+	/**
+		The function finds the longest common subsequence (LCS) between two arrays.
+		Return: the length of the LCS
+		Parameters:
+	  	- array1: first array to compare
+		- array2: second array to compare
+		- storage: array to contain the indices of the common characters
+	*/
+	function findLCS(array1, array2, storage) {
+		var lcsGraph = [];
 
-		// initialize first column with zeros
-		for (let i = 0; i <= len1; i++) {
-			graph[i] = [0];
+		// Initialize first row and column with zeros to avoid needing a bunch of array bound checks later.
+		for (let row = 0; row <= array1.length; row++) {
+			lcsGraph[row] = [0];
+		}
+		for (let column = 1; column <= array2.length; column++) {
+			lcsGraph[0][column] = 0;
 		}
 
-		// initialize first row with zeros
-		for (let i = 1; i <= len2; i++) {
-			graph[0][i] = 0;
+		for (let row = 1; row <= array1.length; row++) {			
+			for (let column = 1; column <= array2.length; column++) {
+				if (array1[row-1] === array2[column-1]) {				
+					// Simply add 1 to value in upper left adjacent cell because it represents 
+					// the LCS not including either of the elements being compared.
+					lcsGraph[row][column] = lcsGraph[row-1][column-1] + 1;
+				}
+				else {					
+					// Otherwise, copy the max value from above or left cells because they represent
+					// the LCS not including array2's element (left)
+					// or not including array1's element (above).
+					lcsGraph[row][column] = Math.max(lcsGraph[row][column-1], lcsGraph[row-1][column]);
+				}
+			}
 		}
-
+		
+		backtrack(lcsGraph, array1, array2, storage);
+		return lcsGraph[array1.length][array2.length];
 	}
 
-	function backtrack(graph, arr1, arr2, storage) {
-		var row = arr1.length;
-		var column = arr2.length;
+	/**
+		A function to store the indices of the LCS between two arrays.
+		The code was separated from findLCS to make it more digestible and organized.
+		Parameters:
+		- graph: the 2D array of LCS values
+		- array1: the first array to compare
+		- array2: the second array to compare
+		- storage: array to contain the indices of the common characters
+	*/
+	function backtrack(graph, array1, array2, storage) {
+		var row = array1.length;
+		var column = array2.length;
 		var cellValue = graph[row][column];
 		while (cellValue > 0) {
-			if (arr1[row-1] === arr2[column-1]) {
+			if (array1[row-1] === array2[column-1]) {
 				storage[cellValue-1] = [row-1, column-1];
 				row--; column--;
 				cellValue = graph[row][column];
@@ -48,89 +81,72 @@
 		}
 	}
 
-	function findLCS(arr1, arr2, storage) {
-		var lcsGraph = [];
-		initGraph(lcsGraph, arr1.length, arr2.length);
-
-		// Rows correspond to the strings in arr1 to compare against.
-		// string == arr1[row-1]
-		for (let row = 1; row <= arr1.length; row++) {			
-			// Columns correspond to the strings in arr2 to compare against.
-			// string == arr2[column-1]
-			for (let column = 1; column <= arr2.length; column++) {
-
-				// Compare strings at the current indices.
-				if (arr1[row-1] === arr2[column-1]) {
-					/*
-						If characters match, increment value in upper left
-						adjacent cell by 1. The upper left cell represents the
-						LCS not including either of the	characters being compared.
-					*/
-					lcsGraph[row][column] = lcsGraph[row-1][column-1] + 1;
-				}
-				else {
-					/*
-						Otherwise, copy the max value from above or left cells.
-						Ie, take the max LCS value not including arr2's character (left)
-						or not including arr1's character (above).
-					*/
-					lcsGraph[row][column] = Math.max(lcsGraph[row][column-1], lcsGraph[row-1][column]);
-				}
-
-			}
-		}
-		
-		backtrack(lcsGraph, arr1, arr2, storage);
-		return lcsGraph[arr1.length][arr2.length];
-	}
-
+	/**
+		A function that's more sophisticated than .split() for splitting a string into an array of strings.
+		This version saves words, punctuation, and spaces as their own independent strings.
+		Parameters:
+		- string: the string to split up
+		- array: the array to save split strings to
+	*/
 	function strToArr(string, array) {
-		var punc = [" ", ",", ".", ":", ";", "?", "!", "\""];
-		var start = 0;
-		var end = 0;
+		// Characters were chosen because they typically appear at the beginning or end of a string.
+		var punc = [" ", ",", ".", ":", ";", "?", "!", "\"", "(", ")", "[", "]", "{", "}"];
+		var wordStart = 0;
+		var wordEnd = 0;
 		for (let i = 0; i < string.length; i++) {
 			var char = string.substr(i, 1);
 			if (punc.indexOf(char) !== -1) {
-				if (start !== i) {
-					array.push(string.substring(start, end+1));
+				if (wordStart !== i) {
+					array.push(string.substring(wordStart, wordEnd+1));
 				}
 				array.push(char);
-				start = i+1;
-				end = i+1;
+				wordStart = i+1;
+				wordEnd = i+1;
 			}
 			else {
-				end = i;
-				if (end === string.length-1) {
-					array.push(string.substring(start, end+1));
+				wordEnd = i;
+				if (wordEnd === string.length-1) {
+					array.push(string.substring(wordStart, wordEnd+1));
 				}
 			}						
 		}
 	}
 
-	function processString(strArr, lcsArr, mode) {
-		var string = "";
-		var tag = "";
-		if (mode === 0) {
-			tag += "s";
+	/**
+		A function to tag a string with HTML depending on the LCS results.
+		Return: the final sting including html tags
+		Parameters:
+		- arrayOfStrings: the sequence of strings to process
+		- lcsResults: the indices corresponding to the LCS in the arrayOfStrings
+		- original: indicates whether arrayOfStrings is an original or edited sequence
+	*/
+	function processString(arrayOfStrings, lcsResults, original) {
+		var htmlString = "";
+		var tag;
+		var lcsColumn;
+		if (original) {
+			tag = "s";
+			lcsColumn = 0;
 		}
 		else {
-			tag += "b";
+			tag = "b";
+			lcsColumn = 1;
 		}
-		var k = 0;
-		for (let i = 0; i < strArr.length; i++) {
-			if (k < lcsArr.length && i === lcsArr[k][mode]) {
-				string += strArr[i];
-				k++;
+		var lcsRow = 0;
+		for (let i = 0; i < arrayOfStrings.length; i++) {
+			if (lcsRow < lcsResults.length && i === lcsResults[lcsRow][lcsColumn]) {
+				htmlString += arrayOfStrings[i];
+				lcsRow++;
 			}
 			else {
-				string += "<" + tag + ">" + strArr[i] + "</" + tag + ">";
+				htmlString += "<" + tag + ">" + arrayOfStrings[i] + "</" + tag + ">";
 			}
 		}
-		return string;
+		return htmlString;
 	}
 
-	var string1 = "!This is a test for something!";
-	var string2 = "This is only a test!";
+	var string1 = "(This) is a test of LCS!";
+	var string2 = "(This is) only a test!";
 	
 	var array1 = [];
 	var array2 = [];
@@ -140,8 +156,8 @@
 	var results = [];
 	
 	var lcs = findLCS(array1, array2, results);
-	var dispString1 = processString(array1, results, 0);
-	var dispString2 = processString(array2, results, 1);
+	var dispString1 = processString(array1, results, true);
+	var dispString2 = processString(array2, results, false);
 
 	document.write(dispString1 + "<br>" + dispString2);
 
