@@ -1,0 +1,150 @@
+<style>
+	s {
+		color: red;
+	}
+
+	b {
+		color: green;
+	}
+</style>
+
+<html>
+<body>
+<script>
+
+	// Get 2D array ready for dynamic programming algorithm.
+	function initGraph(graph, len1, len2) {
+
+		// initialize first column with zeros
+		for (let i = 0; i <= len1; i++) {
+			graph[i] = [0];
+		}
+
+		// initialize first row with zeros
+		for (let i = 1; i <= len2; i++) {
+			graph[0][i] = 0;
+		}
+
+	}
+
+	function backtrack(graph, arr1, arr2, storage) {
+		var row = arr1.length;
+		var column = arr2.length;
+		var cellValue = graph[row][column];
+		while (cellValue > 0) {
+			if (arr1[row-1] === arr2[column-1]) {
+				storage[cellValue-1] = [row-1, column-1];
+				row--; column--;
+				cellValue = graph[row][column];
+			}
+			else {
+				if (graph[row-1][column] >= graph[row][column-1]) {
+					row--;
+				}
+				else {
+					column--;
+				}
+			}
+		}
+	}
+
+	function findLCS(arr1, arr2, storage) {
+		var lcsGraph = [];
+		initGraph(lcsGraph, arr1.length, arr2.length);
+
+		// Rows correspond to the strings in arr1 to compare against.
+		// string == arr1[row-1]
+		for (let row = 1; row <= arr1.length; row++) {			
+			// Columns correspond to the strings in arr2 to compare against.
+			// string == arr2[column-1]
+			for (let column = 1; column <= arr2.length; column++) {
+
+				// Compare strings at the current indices.
+				if (arr1[row-1] === arr2[column-1]) {
+					/*
+						If characters match, increment value in upper left
+						adjacent cell by 1. The upper left cell represents the
+						LCS not including either of the	characters being compared.
+					*/
+					lcsGraph[row][column] = lcsGraph[row-1][column-1] + 1;
+				}
+				else {
+					/*
+						Otherwise, copy the max value from above or left cells.
+						Ie, take the max LCS value not including arr2's character (left)
+						or not including arr1's character (above).
+					*/
+					lcsGraph[row][column] = Math.max(lcsGraph[row][column-1], lcsGraph[row-1][column]);
+				}
+
+			}
+		}
+		
+		backtrack(lcsGraph, arr1, arr2, storage);
+		return lcsGraph[arr1.length][arr2.length];
+	}
+
+	function strToArr(string, array) {
+		var punc = [" ", ",", ".", ":", ";", "?", "!", "\""];
+		var start = 0;
+		var end = 0;
+		for (let i = 0; i < string.length; i++) {
+			var char = string.substr(i, 1);
+			if (punc.indexOf(char) !== -1) {
+				if (start !== i) {
+					array.push(string.substring(start, end+1));
+				}
+				array.push(char);
+				start = i+1;
+				end = i+1;
+			}
+			else {
+				end = i;
+				if (end === string.length-1) {
+					array.push(string.substring(start, end+1));
+				}
+			}						
+		}
+	}
+
+	function processString(strArr, lcsArr, mode) {
+		var string = "";
+		var tag = "";
+		if (mode === 0) {
+			tag += "s";
+		}
+		else {
+			tag += "b";
+		}
+		var k = 0;
+		for (let i = 0; i < strArr.length; i++) {
+			if (k < lcsArr.length && i === lcsArr[k][mode]) {
+				string += strArr[i];
+				k++;
+			}
+			else {
+				string += "<" + tag + ">" + strArr[i] + "</" + tag + ">";
+			}
+		}
+		return string;
+	}
+
+	var string1 = "!This is a test for something!";
+	var string2 = "This is only a test!";
+	
+	var array1 = [];
+	var array2 = [];
+	strToArr(string1, array1);
+	strToArr(string2, array2);
+
+	var results = [];
+	
+	var lcs = findLCS(array1, array2, results);
+	var dispString1 = processString(array1, results, 0);
+	var dispString2 = processString(array2, results, 1);
+
+	document.write(dispString1 + "<br>" + dispString2);
+
+</script>
+</body>
+</html>
