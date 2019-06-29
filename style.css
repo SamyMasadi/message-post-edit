@@ -1,0 +1,80 @@
+* {
+	margin: 0;
+	padding: 0;	
+	font-family: 'Roboto', sans-serif;
+	font-size: 14pt;
+}
+body {
+	background-color: #e6ecf0;
+}
+s {
+	color: red;
+}
+
+b {
+	color: green;
+}
+.main-content {
+	margin: 0 auto;
+	margin-top: 5px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 90%;
+	max-width: 512px;
+	background-color: white;
+	box-shadow: 2px 2px 2px grey;
+}
+#form-container {
+	text-align: right;
+}
+#input-form {
+	width: 93%;
+	height: 6.2em;
+	padding: 1%;
+	border-radius: 10px;
+	border: solid 1px #e6ecf0;
+	background-color: #e6ecf0;
+	resize: none;
+	margin-right: 2.2%;
+}
+#input-form:focus {
+	border: solid 1px #1da1f2;
+	background-color: white;
+}
+button {
+	margin-top: 5px;
+	margin-right: 2.2%;
+	background-color: #1da1f2;
+	color: white;
+	border: none;
+	border-radius: 15px;
+	padding: 3px 11px 3px 11px;
+	text-align: center;
+	cursor: pointer;
+	transition: 0.25s;
+}
+button:hover {
+	background-color: #1a91da;
+}
+#message-container {
+	display: none;
+	text-align: right;
+}
+#message-container p {
+	text-align: left;
+	margin-left: 2.2%;
+	margin-right: 2.2%;
+}
+
+@media only screen and (min-width: 568px) {
+	.main-content {
+		width: 512px;
+	}
+	#input-form {
+		height: 3.8em;
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+	
+	<div class="main-content" id="form-container">
+		<textarea id="input-form" name="message" placeholder="What's on your mind?" autofocus></textarea>
+		<button name="Post" onclick="postUserMessage()">Post</button>
+	</div>
+
+	<div class="main-content" id="message-container">
+		<p id="posted-message"></p>
+
+		<button name="Edit" onclick="editMessage()">Edit</button>
+	</div>
+
+	<script src="main.js"></script>
+
+</body>
+</html>
