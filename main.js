@@ -1,12 +1,18 @@
+/*
+	Samy Masadi
+	Longest Common Subsequence Project
+*/
 
+//////////////////////////////////////
+//		LCS Algorithm Functions		//
+//////////////////////////////////////
 
 /**
 	The function finds the longest common subsequence (LCS) between two arrays.
-	Return: the length of the LCS
-	Parameters:
-	- array1: first array to compare
-	- array2: second array to compare
-	- storage: array to contain the indices of the common characters
+	@return the length of the LCS
+	@param array1 first array to compare
+	@param array2 second array to compare
+	@param storage array to contain the indices of the common characters
 */
 function findLCS(array1, array2, storage) {
 	var lcsGraph = [];
@@ -42,11 +48,10 @@ function findLCS(array1, array2, storage) {
 /**
 	A function to store the indices of the LCS between two arrays.
 	The code was separated from findLCS to make it more digestible and organized.
-	Parameters:
-	- graph: the 2D array of LCS values
-	- array1: the first array to compare
-	- array2: the second array to compare
-	- storage: array to contain the indices of the common characters
+	@param graph the 2D array of LCS values
+	@param array1 the first array to compare
+	@param array2 the second array to compare
+	@param storage array to contain the indices of the common characters
 */
 function backtrack(graph, array1, array2, storage) {
 	var row = array1.length;
@@ -72,9 +77,8 @@ function backtrack(graph, array1, array2, storage) {
 /**
 	A function that's more sophisticated than .split() for splitting a string into an array of strings.
 	This version saves words, punctuation, and spaces as their own independent strings.
-	Parameters:
-	- string: the string to split up
-	- array: the array to save split strings to
+	@param string the string to split up
+	@param array the array to save split strings to
 */
 function strToArr(string, array) {
 	// Characters were chosen because they typically appear at the beginning or end of a string.
@@ -102,11 +106,10 @@ function strToArr(string, array) {
 
 /**
 	A function to tag a string with HTML depending on the LCS results.
-	Return: the final sting including html tags
-	Parameters:
-	- arrayOfStrings: the sequence of strings to process
-	- lcsResults: the indices corresponding to the LCS in the arrayOfStrings
-	- original: indicates whether arrayOfStrings is an original or edited sequence
+	@return the final sting including html tags
+	@param arrayOfStrings the sequence of strings to process
+	@param lcsResults the indices corresponding to the LCS in the arrayOfStrings
+	@param original indicates whether arrayOfStrings is an original or edited sequence
 */
 function processString(arrayOfStrings, lcsResults, original) {
 	var htmlString = "";
@@ -133,20 +136,48 @@ function processString(arrayOfStrings, lcsResults, original) {
 	return htmlString;
 }
 
-function postUserMessage() {
-	string1 = document.getElementById("input-form").value;
-	var messageContainer = document.getElementById("message-container");
-	var postedMessage = document.getElementById("posted-message");
+//////////////////////////////////////
+//		Web Page Interactivity		//
+//////////////////////////////////////
 
-	postedMessage.innerHTML = string1;
-	messageContainer.style.display = "block";
+function openMessageForm() {
+	document.getElementById("modal-background").style.display = "block";
+	document.getElementById("input-container").style.display = "block";
+	document.getElementById("input-area").focus();
+}
+
+function postUserMessage() {
+	string1 = document.getElementById("input-area").value;
+
+	document.getElementById("posted-message").innerHTML = string1;
+	document.getElementById("message-container").style.display = "block";
+	document.getElementById("input-container").style.display = "none";
+	document.getElementById("modal-background").style.display = "none";	
 }
 
 function editMessage() {
-	// TODO: Present an overlayed editing box where the user can 1) edit the original message,
-	// 2) click a button to submit the edit, 3) view a box comparing original and edited messages,
+	document.getElementById("edit-area").value = string1;
+	document.getElementById("modal-background").style.display = "block";
+	document.getElementById("edit-container").style.display = "block";
+	document.getElementById("edit-area").focus();
+}
+
+function showChanges() {
+	var string2 = document.getElementById("edit-area").value
+	var array1 = [];
+	var array2 = [];
+	strToArr(string1, array1);
+	strToArr(string2, array2);
+	var results = [];
+	findLCS(array1, array2, results);
+	dispString1 = processString(array1, results, true);
+	dispString2 = processString(array2, results, false);
+
+	document.getElementById("original-string").innerHTML = dispString1;
+	document.getElementById("edited-string").innerHTML = dispString2;
+	document.getElementById("comparison-container").style.display = "block";
+	// TODO: 3) view a box comparing original and edited messages,
 	// 4) button options: keep editing, revert changes, commit edit.
-	return 0;
 }
 
 var string1;

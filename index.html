@@ -1,3 +1,8 @@
+<!-- 
+	Samy Masadi
+	Longest Common Subsequence Project
+ -->
+
 <!DOCTYPE html>
 
 <html>
@@ -10,15 +15,35 @@
 </head>
 <body>
 	
-	<div class="main-content" id="form-container">
-		<textarea id="input-form" name="message" placeholder="What's on your mind?" autofocus></textarea>
-		<button name="Post" onclick="postUserMessage()">Post</button>
+	<div class="main-content" id="create-new-message">
+		<div onclick="openMessageForm()">What's on your mind?</div>
 	</div>
 
-	<div class="main-content" id="message-container">
+	<div class="main-content" id="message-container" onclick="editMessage()">
 		<p id="posted-message"></p>
+	</div>
 
-		<button name="Edit" onclick="editMessage()">Edit</button>
+	<button name="New" id="new-button" onclick="openMessageForm()">New</button>
+
+	<div class="modal-view" id="modal-background"></div>
+	
+	<div class="main-content modal-view form-container" id="input-container">
+		<button name="Post" onclick="postUserMessage()">Post</button>
+		<textarea class="input-form" id="input-area" placeholder="What's on your mind?"></textarea>
+	</div>
+
+	<div class="main-content modal-view form-container" id="edit-container">
+		<button name="Edit" onclick="showChanges()">Apply Edits</button>
+		<textarea class="input-form" id="edit-area"></textarea>
+	</div>
+
+	<div class="main-content modal-view form-container" id="comparison-container">
+		<div id="comparison-area">
+			<p id="original-string"></p>
+			<p id="edited-string"></p>
+		</div>
+
+		<button id="keep-changes" onclick="">Keep Changes</button>
 	</div>
 
 	<script src="main.js"></script>
