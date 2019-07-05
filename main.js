@@ -198,3 +198,9 @@ function postEditedMessage() {
 	string1 = document.getElementById("edit-area").value;
 	postMessage(string1);
 }
+
+function backFromComparison() {
+	document.getElementById("comparison-container").style.display = "none";
+	document.getElementById("original-string").innerHTML = "";
+	document.getElementById("edited-string").innerHTML = "";
+}

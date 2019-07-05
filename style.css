@@ -12,13 +12,6 @@
 body {
 	background-color: #e6ecf0;
 }
-s {
-	color: red;
-}
-
-b {
-	color: green;
-}
 .main-content {
 	width: 100%;
 	background-color: white;
@@ -65,22 +58,15 @@ button:hover {
 .cancel-button:hover {
 	background-color: #e8f6fe;
 }
+.post-edit-button {
+	position: absolute;
+	right: 2.2%;
+}
 #new-button {
-	margin: 0;
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
 	z-index: 1;
-}
-#post-edit-button {
-	position: absolute;
-	right: 2.2%;
-}
-#keep-changes-button {
-	margin: 0;
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
 }
 /**************************************/
 #message-container {
@@ -112,18 +98,12 @@ button:hover {
 }
 .input-form {
 	width: 93%;
-	height: 3.8em;
+	height: calc( 100% - 50px );
 	margin-top: 5px;
 	padding: 1%;
-	border-radius: 10px;
-	border: solid 1px #e6ecf0;
-	background-color: #e6ecf0;
 	resize: none;
 	margin-left: 2.2%;
-}
-.input-form:focus {
-	border: solid 1px #1da1f2;
-	background-color: white;
+	border: none;
 }
 /**************************************/
 #comparison-container {
@@ -138,14 +118,14 @@ button:hover {
 	margin-left: 3.2%;
 	margin-right: 3.2%;
 }
-#comparison-area p {
+#original-string {
 	margin-bottom: 1em;
 }
-#keep-changes {
-	margin: 0;
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
+#original-string s {
+	color: red;
+}
+#edited-string b {
+	color: green;
 }
 
 /**************************************/
@@ -170,17 +150,21 @@ button:hover {
 		height: auto;
 		border-radius: 10px;
 	}
+	.input-form {
+		height: 3.8em;
+		border-radius: 10px;
+		border: solid 1px #e6ecf0;
+		background-color: #e6ecf0;
+	}
+	.input-form:focus {
+		border: solid 1px #1da1f2;
+		background-color: white;
+	}
 	#new-button {
 		display: none;
 	}
 	#comparison-area {
 		margin-top: 5px;
 		margin-bottom: 0;
-	}
-	#keep-changes {
-		position: relative;
-		left: 357px;
-		bottom: 0;
-		right: 0;
 	}
 }
