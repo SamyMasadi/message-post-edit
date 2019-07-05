@@ -28,22 +28,31 @@
 	<div class="modal-view" id="modal-background"></div>
 	
 	<div class="main-content modal-view form-container" id="input-container">
-		<button name="Post" onclick="postUserMessage()">Post</button>
+		<div class="button-header">
+			<button class="cancel-button" onclick="closeModalView()">Cancel</button>
+			<button id="post-edit-button" onclick="postInitialMessage()">Post</button>
+		</div>
 		<textarea class="input-form" id="input-area" placeholder="What's on your mind?"></textarea>
 	</div>
 
 	<div class="main-content modal-view form-container" id="edit-container">
-		<button name="Edit" onclick="showChanges()">Apply Edits</button>
+		<div class="button-header">
+			<button class="cancel-button" onclick="closeModalView()">Cancel</button>
+			<button id="post-edit-button" onclick="showChanges()">Apply Edits</button>
+		</div>
 		<textarea class="input-form" id="edit-area"></textarea>
 	</div>
 
 	<div class="main-content modal-view form-container" id="comparison-container">
+		<div class="button-header">
+			<button class="cancel-button" onclick="closeModalView()">Cancel</button>
+		</div>
 		<div id="comparison-area">
 			<p id="original-string"></p>
 			<p id="edited-string"></p>
 		</div>
 
-		<button id="keep-changes" onclick="">Keep Changes</button>
+		<button id="keep-changes-button" onclick="postEditedMessage()">Keep Changes</button>
 	</div>
 
 	<script src="main.js"></script>

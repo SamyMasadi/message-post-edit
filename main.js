@@ -4,6 +4,12 @@
 */
 
 //////////////////////////////////////
+//		Page Global Variables		//
+//////////////////////////////////////
+
+var string1;
+
+//////////////////////////////////////
 //		LCS Algorithm Functions		//
 //////////////////////////////////////
 
@@ -146,13 +152,23 @@ function openMessageForm() {
 	document.getElementById("input-area").focus();
 }
 
-function postUserMessage() {
-	string1 = document.getElementById("input-area").value;
-
-	document.getElementById("posted-message").innerHTML = string1;
-	document.getElementById("message-container").style.display = "block";
+function closeModalView() {
+	document.getElementById("comparison-container").style.display = "none";
+	document.getElementById("edit-container").style.display = "none";
 	document.getElementById("input-container").style.display = "none";
-	document.getElementById("modal-background").style.display = "none";	
+	document.getElementById("modal-background").style.display = "none";
+	document.getElementById("input-area").value = "";
+}
+
+function postMessage(string) {
+	document.getElementById("posted-message").innerHTML = string;
+	document.getElementById("message-container").style.display = "block";
+	closeModalView();
+}
+
+function postInitialMessage() {
+	string1 = document.getElementById("input-area").value;
+	postMessage(string1);
 }
 
 function editMessage() {
@@ -176,22 +192,9 @@ function showChanges() {
 	document.getElementById("original-string").innerHTML = dispString1;
 	document.getElementById("edited-string").innerHTML = dispString2;
 	document.getElementById("comparison-container").style.display = "block";
-	// TODO: 3) view a box comparing original and edited messages,
-	// 4) button options: keep editing, revert changes, commit edit.
 }
 
-var string1;
-//var string2 = "";
-
-//var array1 = [];
-//var array2 = [];
-//strToArr(string1, array1);
-//strToArr(string2, array2);
-
-//var results = [];
-
-//var lcs = findLCS(array1, array2, results);
-//var dispString1 = processString(array1, results, true);
-//var dispString2 = processString(array2, results, false);
-
-//document.write(dispString1 + "<br>" + dispString2);
+function postEditedMessage() {
+	string1 = document.getElementById("edit-area").value;
+	postMessage(string1);
+}
