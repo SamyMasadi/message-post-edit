@@ -65,18 +65,16 @@ function backtrack(graph, array1, array2, storage) {
 	var column = array2.length;
 	var cellValue = graph[row][column];
 	while (cellValue > 0) {
-		if (array1[row-1] === array2[column-1]) {
-			storage[cellValue-1] = [row-1, column-1];
-			row--; column--;
-			cellValue = graph[row][column];
+		if (graph[row][column] === graph[row-1][column]) {
+			row--;
+		}
+		else if (graph[row][column] === graph[row][column-1]) {
+			column--;
 		}
 		else {
-			if (graph[row-1][column] >= graph[row][column-1]) {
-				row--;
-			}
-			else {
-				column--;
-			}
+			row--; column--;
+			cellValue = graph[row][column];
+			storage[cellValue] = [row, column];
 		}
 	}
 }
