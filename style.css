@@ -8,6 +8,9 @@
 	padding: 0;	
 	font-family: 'Roboto', sans-serif;
 	font-size: 14pt;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+    outline: none !important;
 }
 body {
 	background-color: #e6ecf0;
@@ -69,14 +72,15 @@ button:hover {
 	z-index: 1;
 }
 /**************************************/
-#message-container {
-	margin-bottom: 1px;
-	display: none;
-	cursor: pointer;
+#timeline-container {
+	width: 100%;
+	background-color: rgb(255,255,255,0);
 }
-#message-container p {
-	margin-left: 2.2%;
-	margin-right: 2.2%;
+#timeline-container p {
+	background-color: white;
+	cursor: pointer;
+	margin-top: 1px;
+	padding: 10px;
 }
 /**************************************/
 .modal-view {
@@ -135,6 +139,10 @@ button:hover {
 		margin: 0 auto;
 		padding-top: 10px;
 		padding-bottom: 10px;
+		width: 512px;
+	}
+	#timeline-container {
+		margin: 0 auto;
 		width: 512px;
 	}
 	.button-header {

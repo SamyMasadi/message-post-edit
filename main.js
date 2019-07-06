@@ -7,7 +7,8 @@
 //		Page Global Variables		//
 //////////////////////////////////////
 
-var string1;
+var messageTimeline = [];
+var indexToEdit;
 
 //////////////////////////////////////
 //		LCS Algorithm Functions		//
@@ -152,6 +153,25 @@ function openMessageForm() {
 	document.getElementById("input-area").focus();
 }
 
+function postInitialMessage() {
+	inputString = document.getElementById("input-area").value;
+	var messageIndex = messageTimeline.push(inputString) - 1;
+	postMessage(inputString, messageIndex);
+}
+
+function postMessage(messageString, timelineIndex) {
+	var newMessage = document.createElement("p");
+	var textNode = document.createTextNode(messageString);
+	newMessage.appendChild(textNode);
+	newMessage.id = timelineIndex;
+	newMessage.addEventListener("click", editMessage);
+
+	var timeline = document.getElementById("timeline-container");
+	timeline.insertBefore(newMessage, timeline.childNodes[0]);
+	timeline.style.display = "block";
+	closeModalView();
+}
+
 function closeModalView() {
 	document.getElementById("comparison-container").style.display = "none";
 	document.getElementById("edit-container").style.display = "none";
@@ -160,30 +180,20 @@ function closeModalView() {
 	document.getElementById("input-area").value = "";
 }
 
-function postMessage(string) {
-	document.getElementById("posted-message").innerHTML = string;
-	document.getElementById("message-container").style.display = "block";
-	closeModalView();
-}
-
-function postInitialMessage() {
-	string1 = document.getElementById("input-area").value;
-	postMessage(string1);
-}
-
 function editMessage() {
-	document.getElementById("edit-area").value = string1;
+	indexToEdit = this.id;
+	document.getElementById("edit-area").value = messageTimeline[indexToEdit];
 	document.getElementById("modal-background").style.display = "block";
 	document.getElementById("edit-container").style.display = "block";
 	document.getElementById("edit-area").focus();
 }
 
 function showChanges() {
-	var string2 = document.getElementById("edit-area").value
+	var editedString = document.getElementById("edit-area").value
 	var array1 = [];
 	var array2 = [];
-	strToArr(string1, array1);
-	strToArr(string2, array2);
+	strToArr(messageTimeline[indexToEdit], array1);
+	strToArr(editedString, array2);
 	var results = [];
 	findLCS(array1, array2, results);
 	dispString1 = processString(array1, results, true);
@@ -195,8 +205,12 @@ function showChanges() {
 }
 
 function postEditedMessage() {
-	string1 = document.getElementById("edit-area").value;
-	postMessage(string1);
+	var messageToRemove = document.getElementById(indexToEdit);
+	messageToRemove.parentNode.removeChild(messageToRemove);
+
+	var editedString = document.getElementById("edit-area").value;
+	messageTimeline[indexToEdit] = editedString;
+	postMessage(editedString, indexToEdit);
 }
 
 function backFromComparison() {
