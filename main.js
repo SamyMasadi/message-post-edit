@@ -152,6 +152,7 @@ function openMessageForm() {
 }
 
 function postInitialMessage() {
+	document.getElementById("default-mobile-text").style.display = "none";
 	inputString = document.getElementById("input-area").value;
 	var messageIndex = messageTimeline.push(inputString) - 1;
 	postMessage(inputString, messageIndex);

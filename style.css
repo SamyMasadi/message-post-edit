@@ -8,9 +8,9 @@
 	padding: 0;	
 	font-family: 'Roboto', sans-serif;
 	font-size: 14pt;
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+	/*-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
     -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
-    outline: none !important;
+    outline: none !important;*/
 }
 body {
 	background-color: #e6ecf0;
@@ -35,6 +35,11 @@ body {
 	background-color: #e6ecf0;
 	color: grey;
 	cursor: pointer;
+}
+#default-mobile-text {
+	margin-top: 50px;
+	text-align: center;
+	color: grey;
 }
 /**************************************/
 button {
@@ -80,8 +85,12 @@ button:hover {
 #timeline-container p {
 	background-color: white;
 	cursor: pointer;
-	margin-top: 1px;
+	margin-bottom: 1px;
 	padding: 10px;
+	transition: 0.25s;
+}
+#timeline-container p:hover {
+	background-color: #f5f8fa;
 }
 /**************************************/
 .modal-view {
@@ -93,7 +102,8 @@ button:hover {
 	height: 100%;
 }
 #modal-background {
-	background-color: rgb(0,0,0,0.4);
+	background-color: black;
+	opacity: 0.4;
 	z-index: 2;
 }
 /**************************************/
@@ -139,6 +149,9 @@ button:hover {
 		padding-top: 10px;
 		padding-bottom: 10px;
 		width: 512px;
+	}
+	#default-mobile-text {
+		display: none;
 	}
 	#timeline-container {
 		margin: 0 auto;
