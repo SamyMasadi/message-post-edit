@@ -8,8 +8,9 @@
 	padding: 0;	
 	font-family: 'Roboto', sans-serif;
 	font-size: 14pt;
-	-webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
-    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+	-webkit-tap-highlight-color: #1da1f2 !important; 
+    -webkit-focus-ring-color: #1da1f2 !important; 
+    outline-color: #1da1f2 !important;
 }
 body {
 	background-color: #e6ecf0;
@@ -117,6 +118,7 @@ button:hover {
 	resize: none;
 	margin-left: 2.2%;
 	border: none;
+	outline: none;
 }
 /**************************************/
 #comparison-container {
